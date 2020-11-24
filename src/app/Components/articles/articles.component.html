@@ -1,0 +1,12 @@
+<h1>Articles </h1>
+<div #nbrArticles *ngFor="let index = index;let article of listArticles">
+  <div [id]="article.id">
+    <p>{{index}} - {{article.id}} </p>
+    <p [innerHTML]="article.title['rendered']" ></p>
+    <p> {{ article.title['rendered'] | htmlEntities }}</p>
+  </div>
+  <!--<p>{{article.title.rendered}}</p>-->
+</div>
+<div>
+<p> Nombred 'articles : {{ listArticlesLength }}</p>
+</div>
