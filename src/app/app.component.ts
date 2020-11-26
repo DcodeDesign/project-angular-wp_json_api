@@ -1,15 +1,18 @@
 import {Component, Input, OnInit} from '@angular/core';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
+  title = 'angular-wp';
   public charged;
 
-  ngOnInit(): void {
+  constructor() { }
 
+  ngOnInit(): void {
   }
 
   public isCharged(completed: boolean): void {

@@ -1,27 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ArticlesComponent } from './articles.component';
-import {HttpClientModule} from '@angular/common/http';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
+import { SimpleArticleComponent } from './simple-article.component';
 import {RouterTestingModule} from '@angular/router/testing';
+import {HttpClientModule} from '@angular/common/http';
 import {ApiUrl} from '../../Configs/ApiUrl';
 
-describe('ArticlesComponent', () => {
-  let component: ArticlesComponent;
-  let fixture: ComponentFixture<ArticlesComponent>;
+describe('SimpleArticleComponent', () => {
+  let component: SimpleArticleComponent;
+  let fixture: ComponentFixture<SimpleArticleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ArticlesComponent ],
+      declarations: [SimpleArticleComponent],
       imports: [
         RouterTestingModule,
         HttpClientModule
       ],
       providers: [ApiUrl]
     })
-      .compileComponents();
+    .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ArticlesComponent);
+    fixture = TestBed.createComponent(SimpleArticleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

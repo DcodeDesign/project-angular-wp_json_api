@@ -1,9 +1,10 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ArticlesService} from '../../Services/articles.service';
 import {ArticlesModel} from '../../Models/Articles.model';
 import {IArticles} from '../../Interfaces/IArticles';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-articles',
@@ -11,94 +12,40 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./articles.component.scss']
 })
 export class ArticlesComponent implements OnInit, OnDestroy {
+  public isCharged = false;
+  // private inter: NodeJS.Timeout;
+  Article$: Subscription;
   public listArticles: ArticlesModel[];
-  public listArticlesV2: IArticles[];
   public listArticlesLength: number;
-  public test = false;
-  public name: string;
-  public sub: Subscription;
-  @Output() public isCharged = new EventEmitter<boolean>();
-  // @ts-ignore
-  private inter: NodeJS.Timeout;
-  private getListArti: Subscription;
 
-  constructor(private articlesServices: ArticlesService, private route: ActivatedRoute) {
+  constructor(private articlesServices: ArticlesService) {
   }
 
   ngOnInit(): void {
-    // this.articles();
     this.articles();
-    this.getParam();
   }
 
-  // Get Articles based on model
   public articles(): Subscription {
-    this.getListArti = this.articlesServices.getListArticles().subscribe(
+    this.Article$ = this.articlesServices.getListArticles().subscribe(
       values => {
         this.listArticles = values;
-        this.charged(true);
         this.listArticlesLength = values.length;
+        this.isCharged = true;
       },
       (error) => {
         console.log(error);
       },
       () => {
-        console.log('completed !');
-        this.test = true;
-      });
-    return this.getListArti;
-  }
-
-  // Get Articles based on model
-  public articlesV2(): Subscription {
-    /*return this.articlesServices.getListContactV2().subscribe(
-      values => {
-        this.listArticlesV2 = values;
-        this.charged(true);
-        this.listArticlesLength = values.length;
-      },
-      (error) => {
-        console.log(error);
-      },
-      () => {
-        console.log('completed !');
-        this.test = true;
-      });*/
-    this.inter = setInterval(() => {
-      this.sub = this.articlesServices.getListContactV2().subscribe(
-        values => {
-          this.listArticlesV2 = values;
-          this.listArticlesLength = values.length;
-          this.charged(true);
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
+        if (environment.production !== true) {
           console.log('completed !');
-          this.test = true;
-        });
-    }, 3000);
-    return this.sub;
-  }
-
-
-  public getParam(): void {
-    // ?name=salut
-    this.route.queryParams.subscribe(params => {
-      // this.name = (params['name'] as Array<string>);
-      this.name = params.name;
-    });
-  }
-
-  public charged(completed: boolean = false): void {
-    this.isCharged.emit(completed);
+        }
+      });
+    return this.Article$;
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.inter);
-    // this.sub.unsubscribe();
-    this.getListArti.unsubscribe();
+    // clearInterval(this.inter);
+    this.Article$.unsubscribe();
   }
 
 }

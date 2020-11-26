@@ -1,20 +1,22 @@
-<h1>Articles {{name}}</h1>
+<h1>Articles</h1>
 <div>
-  <p [hidden]="!test" > Nombred 'articles : {{ listArticlesLength }}</p>
+  <p [hidden]="!isCharged" > Nombre d'articles : {{ listArticlesLength }}</p>
 </div>
 
-<img class="loader" src="assets/tenor.gif" alt="chargement" [hidden]="test"/>
+<img class="loader" src="assets/tenor.gif" alt="chargement" [hidden]="isCharged"/>
 
 <div *ngFor="let index = index;let article of listArticles">
   <div [id]="article.id">
-    <!-- <p> {{index}} - {{article.id}} <span [innerHTML]="article.title['rendered']" ></span> </p>
-    <p> {{index}} - {{article.id}} {{ article.title['rendered'] | slicer }}</p>
-    <p> {{index}} - {{article.id}} {{ article.title['rendered'] | htmlEntities }}</p>-->
-    <p> {{index}} - {{article.id}} {{ article.title.rendered }}
-
+    <!--
+      <p> {{index}} - {{article.id}} <span [innerHTML]="article.title['rendered']" ></span> </p>
+      <p> {{index}} - {{article.id}} {{ article.title['rendered'] | slicer }}</p>
+      <p> {{index}} - {{article.id}} {{ article.title['rendered'] | htmlEntities }}</p>
+    -->
+    <p> {{article.id}} {{ article.title.rendered }}
        <a [routerLink]="['/article', article.id]">
-        <span class="badge">{{ article.id }}</span>voir l'article
+        <span class="badge">{{ article.id }}</span> voir l'article
       </a>
+    </p>
   </div>
 </div>
 

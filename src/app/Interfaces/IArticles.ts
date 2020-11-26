@@ -6,4 +6,5 @@ export interface IArticles {
   content: {
     rendered: string;
   };
+  deserialize(input: any): this;
 }

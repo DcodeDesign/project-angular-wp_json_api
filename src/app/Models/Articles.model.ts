@@ -3,15 +3,18 @@ import {TitleModel} from './Title.model';
 import {IArticles} from '../Interfaces/IArticles';
 
 export class ArticlesModel implements Deserializable, IArticles {
-  id: number;
-  title: TitleModel;
-  content: {
-    rendered: string
-  };
-  private titleModel: any;
+  public id: number;
+  public title: TitleModel;
+  public content: any;
+
+/*  constructor(id: number, title: any, content: any) {
+    this.id = id;
+    this.title = title;
+    this.content = content;
+  }*/
+
   deserialize(input: any): this {
     Object.assign(this, input);
-    this.titleModel = new TitleModel().deserialize(input.car);
     return this;
   }
 }
