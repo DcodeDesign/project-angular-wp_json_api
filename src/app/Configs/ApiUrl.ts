@@ -10,12 +10,12 @@ export class ApiUrl {
     return 'https://labs.dcode.design/wp-json/wp/v2/';
   }
 
-  public static articlesURL(): string {
+  public articlesURL(): string {
     return ApiUrl.baseUrl() + 'posts/';
   }
 
-  public static articleURL(id: string): string {
-    return ApiUrl.articlesURL() + id;
+  public articleURL(id: string): string {
+    return this.articlesURL() + id;
   }
 
   public httpOptions(): any {

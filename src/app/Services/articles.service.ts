@@ -11,7 +11,7 @@ import {IArticles} from '../Interfaces/IArticles';
 })
 export class ArticlesService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private apiUrl: ApiUrl) {
   }
 
   /*public getArticles(): Observable<any> {
@@ -21,14 +21,14 @@ export class ArticlesService {
 
   // GET with model
   public getListArticles(): any {
-    return this.http.get<ArticlesModel[]>(ApiUrl.articlesURL()).pipe(
+    return this.http.get<ArticlesModel[]>(this.apiUrl.articlesURL()).pipe(
       map(datas => datas.map(data => new ArticlesModel().deserialize(data))),
       catchError(this.handleHttpError)
     );
   }
 
   public getListArticle(id: string): any {
-    return this.http.get<ArticlesModel[]>(ApiUrl.articleURL(id)).pipe(
+    return this.http.get<ArticlesModel[]>(this.apiUrl.articleURL(id)).pipe(
       map(data => new ArticlesModel().deserialize(data)),
       catchError(this.handleHttpError)
     );
@@ -50,7 +50,7 @@ export class ArticlesService {
 
   // GET with Interfaces
   public getListContactV2(): Observable<IArticles[]> {
-    return this.http.get<IArticles[]>(ApiUrl.articlesURL()).pipe(
+    return this.http.get<IArticles[]>(this.apiUrl.articlesURL()).pipe(
       map(data => data,
         tap(() => {
             catchError(this.handleHttpError);

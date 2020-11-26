@@ -12,6 +12,9 @@ import { NotFoundComponent } from './Components/not-found/not-found.component';
 import { NavigationComponent } from './Components/navigation/navigation.component';
 import { SlicerPipe } from './Pipes/slicer.pipe';
 import { ArticleComponent } from './Components/article/article.component';
+import {ArticlesModel} from './Models/Articles.model';
+import {ApiUrl} from './Configs/ApiUrl';
+import {ArticlesService} from './Services/articles.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,7 @@ import { ArticleComponent } from './Components/article/article.component';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [ApiUrl, ArticlesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
