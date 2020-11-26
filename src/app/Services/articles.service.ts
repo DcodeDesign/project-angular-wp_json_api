@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Observable, of, throwError} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {ApiUrl} from '../Configs/ApiUrl';
-import {ArticlesModel} from '../Models/articles-model';
+import {ArticlesModel} from '../Models/Articles.model';
+import {IArticles} from '../Interfaces/IArticles';
 
 @Injectable({
   providedIn: 'root'
@@ -18,20 +19,54 @@ export class ArticlesService {
       .pipe();
   }*/
 
-  public getListContact(): any {
+  // GET with model
+  public getListArticles(): any {
     return this.http.get<ArticlesModel[]>(ApiUrl.articlesURL()).pipe(
       map(datas => datas.map(data => new ArticlesModel().deserialize(data))),
       catchError(this.handleHttpError)
     );
   }
 
-  public handleHttpError(error: HttpErrorResponse): Observable<never>{
+  public getListArticle(id: string): any {
+    return this.http.get<ArticlesModel[]>(ApiUrl.articleURL(id)).pipe(
+      map(data => new ArticlesModel().deserialize(data)),
+      catchError(this.handleHttpError)
+    );
+  }
+
+  public handleHttpError(error: HttpErrorResponse): Observable<never> {
     switch (error.status) {
       case 404: {
         console.log('Error 404');
         break;
       }
+      case 200: {
+        console.log('succes 200');
+        break;
+      }
     }
     return throwError(error);
   }
+
+  // GET with Interfaces
+  public getListContactV2(): Observable<IArticles[]> {
+    return this.http.get<IArticles[]>(ApiUrl.articlesURL()).pipe(
+      map(data => data,
+        tap(() => {
+            catchError(this.handleHttpError);
+          },
+        )
+      )
+    );
+  }
+
+  /* private handleError<T>(operation = 'operation', result?: T):  {
+     return (error: any): Observable<T> => {
+       console.error(error); // log to console instead
+       DataTasksService.log(`${operation} failed: ${error.message}`);
+       return of(result as T);
+     };
+   }*/
+
+
 }

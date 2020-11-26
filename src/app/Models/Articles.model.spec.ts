@@ -1,4 +1,4 @@
-import { ArticlesModel } from './articles-model';
+import { ArticlesModel } from './Articles.model';
 
 describe('ArticlesModel', () => {
   it('should create an instance', () => {
